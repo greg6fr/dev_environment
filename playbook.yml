@@ -3,9 +3,9 @@
   become: true
   vars:
     # dev_user: jules
-    ssh_private_key: ~/mykey.pem
+    ssh_private_key: ~/.ssh/id_rsa
     node_version: "20"
-    admin_user: admin
+    admin_user: root
 
   roles:
     - common
@@ -14,5 +14,6 @@
     - chrome
     - aws_cli
     - angular_cli
+    - install_terraform
   #- firewall
   # - user
