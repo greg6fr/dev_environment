@@ -19,11 +19,24 @@
     dest: /tmp
     remote_src: yes
 
-- name: Installer AWS CLI
+- name: Vérifier si AWS CLI est déjà installé
+  stat:
+    path: /usr/local/aws-cli/v2/current
+  register: aws_cli_exists
+
+- name: Installer AWS CLI (nouvelle installation)
   command: ./aws/install
   args:
     chdir: /tmp
   become: true
+  when: not aws_cli_exists.stat.exists
+
+- name: Mettre à jour AWS CLI (installation existante)
+  command: ./aws/install --update
+  args:
+    chdir: /tmp
+  become: true
+  when: aws_cli_exists.stat.exists
 
 - name: Vérifier la version installée
   command: aws --version
