@@ -13,5 +13,6 @@
     - nodejs
     - chrome
     - aws_cli
+    - angular_cli
   #- firewall
   # - user

@@ -1,0 +1,26 @@
+---
+- name: Installer Angular CLI globalement
+  shell: |
+    export NVM_DIR="$HOME/.nvm"
+    source $NVM_DIR/nvm.sh
+    nvm use --lts
+    npm install -g @angular/cli
+  args:
+    executable: /bin/bash
+  become: false
+
+- name: Vérifier l'installation d'Angular CLI
+  shell: |
+    export NVM_DIR="$HOME/.nvm"
+    source $NVM_DIR/nvm.sh
+    nvm use --lts
+    ng version
+  args:
+    executable: /bin/bash
+  register: angular_cli_version
+  changed_when: false
+  become: false
+
+- name: Afficher la version Angular CLI
+  debug:
+    msg: "Version Angular CLI installée : {{ angular_cli_version.stdout_lines[0] }}"

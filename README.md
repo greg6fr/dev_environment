@@ -49,6 +49,7 @@ vault_aws_secret_access_key: "your-secret-key"
 - **Node.js 20**: JavaScript runtime
 - **Google Chrome**: Web browser
 - **AWS CLI v2**: Amazon Web Services command line interface
+- **Angular CLI**: Command line interface for Angular development
 - **Terraform**: Infrastructure as code tool
 
 ## Security Notes
