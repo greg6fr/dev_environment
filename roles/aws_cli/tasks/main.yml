@@ -1,0 +1,44 @@
+---
+- name: Assurer que les dépendances sont installées
+  apt:
+    name:
+      - unzip
+      - curl
+    state: present
+    update_cache: yes
+
+- name: Télécharger AWS CLI v2
+  get_url:
+    url: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+    dest: /tmp/awscliv2.zip
+    mode: '0644'
+
+- name: Décompresser l'archive AWS CLI
+  unarchive:
+    src: /tmp/awscliv2.zip
+    dest: /tmp
+    remote_src: yes
+
+- name: Installer AWS CLI
+  command: ./aws/install
+  args:
+    chdir: /tmp
+  become: true
+
+- name: Vérifier la version installée
+  command: aws --version
+  register: aws_cli_version
+  changed_when: false
+
+- name: Afficher la version AWS CLI
+  debug:
+    msg: "Version AWS CLI installée : {{ aws_cli_version.stdout }}"
+
+- name: Configurer AWS CLI (si les identifiants sont fournis)
+  shell: |
+    aws configure set aws_access_key_id {{ aws_access_key_id }}
+    aws configure set aws_secret_access_key {{ aws_secret_access_key }}
+    aws configure set region {{ aws_region }}
+  args:
+    executable: /bin/bash
+  when: aws_access_key_id | length > 0 and aws_secret_access_key | length > 0

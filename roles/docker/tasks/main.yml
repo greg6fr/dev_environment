@@ -1,0 +1,29 @@
+- name: Ajouter clé GPG Docker
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Ajouter dépôt Docker
+  apt_repository:
+    repo: >-
+      {% if ansible_distribution == 'Debian' and ansible_distribution_release == 'bookworm' %}
+      deb [arch=amd64] https://download.docker.com/linux/debian bookworm stable
+      {% else %}
+      deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+      {% endif %}
+    state: present
+
+- name: Installer Docker
+  apt:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+    state: present
+    update_cache: yes
+
+- name: Ajouter {{ admin_user }} au groupe docker
+  user:
+    name: "{{ admin_user }}"
+    groups: docker
+    append: yes

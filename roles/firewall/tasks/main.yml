@@ -1,0 +1,9 @@
+- name: Autoriser SSH via UFW
+  ufw:
+    rule: allow
+    name: OpenSSH
+
+- name: Activer le pare-feu UFW
+  ufw:
+    state: enabled
+    enabled: yes

@@ -1,0 +1,16 @@
+- name: Mettre à jour le système
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: Installer paquets de base
+  apt:
+    name:
+      - curl
+      - git
+      - unzip
+      - vim
+      - gnupg
+      - ca-certificates
+      - ufw
+    state: present

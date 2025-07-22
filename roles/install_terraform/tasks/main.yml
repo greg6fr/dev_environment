@@ -1,0 +1,27 @@
+---
+- name: Download Terraform binary
+  get_url:
+    url: "https://releases.hashicorp.com/terraform/{{ terraform_version }}/terraform_{{ terraform_version }}_linux_amd64.zip"
+    dest: "/tmp/terraform.zip"
+    mode: '0644'
+
+- name: Unzip Terraform binary
+  unarchive:
+    src: "/tmp/terraform.zip"
+    dest: "/usr/local/bin"
+    remote_src: yes
+    creates: "/usr/local/bin/terraform"
+
+- name: Ensure Terraform is executable
+  file:
+    path: "/usr/local/bin/terraform"
+    mode: '0755'
+    state: file
+
+- name: Verify Terraform installation
+  command: "terraform version"
+  register: terraform_version_output
+
+- name: Show Terraform version
+  debug:
+    msg: "{{ terraform_version_output.stdout }}"

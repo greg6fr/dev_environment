@@ -1,0 +1,17 @@
+- name: Initialiser la VM pour environnement DevOps
+  hosts: all
+  become: true
+  vars:
+    # dev_user: jules
+    ssh_private_key: ~/mykey.pem
+    node_version: "20"
+    admin_user: admin
+
+  roles:
+    - common
+    - docker
+    - nodejs
+    - chrome
+    - aws_cli
+  #- firewall
+  # - user

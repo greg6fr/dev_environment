@@ -1,0 +1,9 @@
+- name: Ajouter setup Node.js {{ node_version }}
+  shell: curl -fsSL https://deb.nodesource.com/setup_{{ node_version }}.x | bash -
+  args:
+    executable: /bin/bash
+
+- name: Installer Node.js
+  apt:
+    name: nodejs
+    state: present

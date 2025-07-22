@@ -1,0 +1,12 @@
+- name: Créer utilisateur développeur
+  user:
+    name: "{{ dev_user }}"
+    shell: /bin/bash
+    groups: sudo
+    append: yes
+    create_home: yes
+
+- name: Ajouter clé SSH pour {{ dev_user }}
+  authorized_key:
+    user: "{{ dev_user }}"
+    key: "{{ ssh_pub_key }}"
